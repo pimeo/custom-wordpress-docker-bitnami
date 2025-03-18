@@ -59,7 +59,7 @@ generate_wordpress_vars_in_env_file: ## Generate wordpress credentials and setti
 	echo DB_PASSWORD=$$(grep WORDPRESS_DATABASE_PASSWORD .env | cut -d'=' -f 2-) >> wordpress_data/.env
 	echo "### / WP CONFIG DATABASE CREDENTIALS" >> wordpress_data/.env
 	echo "\n\n ### WP CONFIG" >> wordpress_data/.env
-	echo WP_HOST_PROTOCOL=$$(grep WP_HOST_PROTOCOL .env | cut -d'=' -f 2-) >> wordpress_data/.env
+	echo WP_HOST_PROTOCOL=$$(grep WORDPRESS_HOST_PROTOCOL .env | cut -d'=' -f 2-) >> wordpress_data/.env
 	echo WP_HOST_DOMAIN=$$(grep WORDPRESS_HOST_PROTOCOL .env | cut -d'=' -f 2-) >> wordpress_data/.env
 	echo WP_DEBUG=$$(grep WORDPRESS_DEBUG .env | cut -d'=' -f 2-) >> wordpress_data/.env
 	echo "### WP CONFIG" >> wordpress_data/.env
