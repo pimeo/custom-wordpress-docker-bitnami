@@ -124,22 +124,28 @@ typings/
 
 # ignore everything in the "wp-content" directory, except:
 # "mu-plugins", "plugins", "themes" directory
-wordpress/wp-content/*
-wordpress/wp-includes/*
-wordpress/wp-admin/*
-!wordpress/wp-content/mu-plugins/
-!wordpress/wp-content/plugins/
-!wordpress/wp-content/themes/
+wordpress_data/wp-content/*
+wordpress_data/wp-includes/*
+wordpress_data/wp-admin/*
+!wordpress_data/wp-content/mu-plugins/
+!wordpress_data/wp-content/plugins/
+!wordpress_data/wp-content/themes/
+wordpress_data/vendor/
+wordpress_data/wp-config.php.bak
+
+!wordpress/wp-content/mu-plugins
+wordpress_data/wp-content/plugins
+!wordpress_data/wp-content/plugins/index.php
 
 # Ignore mysql docker volume
 dbdata
 mariadb_data
 
 # ignore these plugins
-wordpress/wp-content/plugins/hello.php
+wordpress_data/wp-content/plugins/hello.php
 
 # ignore specific themes
-wordpress/wp-content/themes/twenty*/
+wordpress_data/wp-content/themes/twenty*
 
 # ignore log files and databases
 *.log
@@ -194,13 +200,6 @@ wordpress/wp-content/themes/twenty*/
 
 # track these mu-plugins, plugins, and themes
 # add your own entries here
-# !wp-content/mu-plugins/example-mu-plugin/
-# !wp-content/plugins/example-plugin/
-# !wp-content/themes/ondes-maritimes/
-!wordpress/wp-content/plugins
-!wordpress/wp-content/mu-plugins
-/vendor/
-/wordpress_data/vendor/
-/wordpress_data/wp-config.php.bak
+vendor/
 
 auth.json
