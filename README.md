@@ -39,6 +39,19 @@ tree -L 3
 ## Installation
 
 
+### Debian distribution
+
+```
+apt update
+apt install build-essential
+```
+
+### Macos
+
+```
+xcode-select --install
+```
+
 ### Standard installation
 
 ```
