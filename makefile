@@ -1,6 +1,6 @@
 WORDPRESS_SALT_URL=https://api.wordpress.org/secret-key/1.1/salt/
 
-.PHONY: composer_install update_wp_config launch_wordpress_docker_compose cleanup_env_file generate_wordpress_salts_in_env_file generate_wordpress_vars_in_env_file remove_wordress_orig generate_env_file customize_wordpress install
+.PHONY: composer_install update_wp_config launch_wordpress_docker_compose cleanup_env_file generate_wordpress_salts_in_env_file generate_wordpress_vars_in_env_file remove_wordress_orig configure_persistent_binded_volumes generate_env_file customize_wordpress install
 	
 composer_install: wordpress-orig/composer.json  ## Install composer vendor into wordpress_data directory
 	mkdir -p wordpress_data
@@ -56,6 +56,12 @@ generate_wordpress_vars_in_env_file: ## Generate wordpress credentials and setti
 
 remove_wordress_orig: ## Delete wordpress-orig directory
 	rm -fr wordpress-orig
+
+configure_persistent_binded_volumes: # Create bitnami user to prevent from denied permissions on mounted binded volumes
+	useradd -u 1001 bitnami
+	mkdir -p {wordpress_data,mariadb_data}
+	chown -R bitnami:bitnami wordpress_data
+	chown -R bitnami:bitnami mariadb_data
 
 generate_env_file: cleanup_env_file generate_wordpress_vars_in_env_file generate_wordpress_salts_in_env_file ## Shortcut command to generate a new .env file in wordpress_data directory
 customize_wordpress: composer_install update_wp_config generate_env_file ## Push custom settings to rule Wordpress via an env-based wp-config file
