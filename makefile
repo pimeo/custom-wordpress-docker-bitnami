@@ -31,7 +31,8 @@ launch_wordpress_docker_compose: ## Install wordpress with docker compose then s
 
 cleanup_env_file: ## Delete .env file in wordpress_data directory
 	mkdir -p wordpress-orig
-	rm -f wordpress_data/.env
+	if [[ -e wordpress_data/.env ]]; then cp wordpress_data/.env wordpress_data/.env.bak; fi
+	rm -fv wordpress_data/.env
 
 generate_wordpress_salts_in_env_file: ## Generate wordpress salts variables in wordpress_data/.env file
 	mkdir -p wordpress-orig
@@ -46,7 +47,7 @@ generate_wordpress_salts_in_env_file: ## Generate wordpress salts variables in w
 	echo LOGGED_IN_SALT=\"$$(cat wordpress-orig/salt.txt | cut -d "'" -f 4 | awk NR==7)\" >> wordpress_data/.env
 	echo NONCE_SALT=\"$$(cat wordpress-orig/salt.txt | cut -d "'" -f 4 | awk NR==8)\" >> wordpress_data/.env
 	echo "### / WP CONFIG SALT" >> wordpress_data/.env
-	rm -f wordpress-orig/salt.txt
+	rm -fv wordpress-orig/salt.txt
 
 generate_wordpress_vars_in_env_file: ## Generate wordpress credentials and settings variables in wordpress_data/.env file
 	mkdir -p wordpress-orig
@@ -64,11 +65,11 @@ generate_wordpress_vars_in_env_file: ## Generate wordpress credentials and setti
 	echo "### WP CONFIG" >> wordpress_data/.env
 
 remove_wordress_orig: ## Delete wordpress-orig directory
-	rm -fr wordpress-orig
+	rm -frv wordpress-orig
 
 configure_persistent_binded_volumes: # Create bitnami user to prevent from denied permissions on mounted binded volumes
 	sudo useradd -u 1001 bitnami
-	usermod -a -G bitnami $$(whoiam)
+	sudo usermod -a -G bitnami $$(whoiam)
 	mkdir -p {wordpress_data,mariadb_data}
 	sudo chown -R $$(whoiam):bitnami wordpress_data
 	sudo chown -R bitnami:bitnami mariadb_data
