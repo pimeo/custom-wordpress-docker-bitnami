@@ -119,8 +119,8 @@ if ( defined( 'WP_CLI' ) ) {
 	$_SERVER['HTTP_HOST'] = '127.0.0.1';
 }
 
-define( 'WP_HOME', ($env['WP_HOST_PROTOCOL'] ?? 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? $_SERVER['HTTP_HOST']) . '/' );
-define( 'WP_SITEURL', ($env['WP_HOST_PROTOCOL'] ?? 'http') . '://' . ( $env['WP_HOST_PROTOCOL'] ?? $_SERVER['HTTP_HOST']) . '/' );
+define( 'WP_HOME', ($env['WP_HOST_PROTOCOL'] ?? 'http') . '://' . ($env['WP_HOST_DOMAIN'] ?? $_SERVER['HTTP_HOST']) . '/' );
+define( 'WP_SITEURL', ($env['WP_HOST_PROTOCOL'] ?? 'http') . '://' . ( $env['WP_HOST_DOMAIN'] ?? $_SERVER['HTTP_HOST']) . '/' );
 define( 'WP_AUTO_UPDATE_CORE', false );
 
 

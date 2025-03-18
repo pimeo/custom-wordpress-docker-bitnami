@@ -59,18 +59,19 @@ generate_wordpress_vars_in_env_file: ## Generate wordpress credentials and setti
 	echo "### / WP CONFIG DATABASE CREDENTIALS" >> wordpress_data/.env
 
 	echo "\n\n ### WP CONFIG" >> wordpress_data/.env
-	echo WP_HOST_PROTOCOL=false >> wordpress_data/.env
-	echo WP_DEBUG=false >> wordpress_data/.env
+	echo WP_HOST_PROTOCOL=$$(grep WP_HOST_PROTOCOL .env | cut -d'=' -f 2-) >> wordpress_data/.env
+	echo WP_HOST_DOMAIN=$$(grep WORDPRESS_HOST_PROTOCOL .env | cut -d'=' -f 2-) >> wordpress_data/.env
+	echo WP_DEBUG=$$(grep WORDPRESS_DEBUG .env | cut -d'=' -f 2-) >> wordpress_data/.env
 	echo "### WP CONFIG" >> wordpress_data/.env
 
 remove_wordress_orig: ## Delete wordpress-orig directory
 	rm -fr wordpress-orig
 
 configure_persistent_binded_volumes: # Create bitnami user to prevent from denied permissions on mounted binded volumes
-	useradd -u 1001 bitnami
+	sudo useradd -u 1001 bitnami
 	mkdir -p {wordpress_data,mariadb_data}
-	chown -R bitnami:bitnami wordpress_data
-	chown -R bitnami:bitnami mariadb_data
+	sudo chown -R bitnami:bitnami wordpress_data
+	sudo chown -R bitnami:bitnami mariadb_data
 
 generate_env_file: cleanup_env_file generate_wordpress_vars_in_env_file generate_wordpress_salts_in_env_file ## Shortcut command to generate a new .env file in wordpress_data directory
 customize_wordpress: composer_install update_wp_config generate_env_file ## Push custom settings to rule Wordpress via an env-based wp-config file
