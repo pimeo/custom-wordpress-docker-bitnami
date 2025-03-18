@@ -1,0 +1,13 @@
+{
+    "name": "wordpress/carimas",
+    "authors": [
+        {
+            "name": "bsu",
+            "email": "bertrand.souriau@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

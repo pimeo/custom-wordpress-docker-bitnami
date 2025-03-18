@@ -1,0 +1,206 @@
+# Logs
+logs
+bin/logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# OSX DS Store
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+coverage/
+# Idea
+.idea
+*.lcov
+
+# Users Environment Variables
+.lock-wscript
+
+# Compilation directory
+# dist/
+# build/
+
+
+# Environment dotfiles
+.env
+.env.*
+.venv
+.venv.*
+!.env.example
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ### [MACOS]
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# ### [NODE]
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Dependency directory
+# Commenting this out is preferred by some people, see
+# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git-
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# TypeScript v1 declaration files
+typings/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# vuepress build output
+.vuepress/dist
+
+# ### [WORDPRESS]
+
+# ignore all files starting with . or ~
+~*
+
+# ignore everything in the root except the "wp-content" directory.
+!wp-content/
+!*.md
+
+# ignore everything in the "wp-content" directory, except:
+# "mu-plugins", "plugins", "themes" directory
+wordpress/wp-content/*
+wordpress/wp-includes/*
+wordpress/wp-admin/*
+!wordpress/wp-content/mu-plugins/
+!wordpress/wp-content/plugins/
+!wordpress/wp-content/themes/
+
+# Ignore mysql docker volume
+dbdata
+mariadb_data
+
+# ignore these plugins
+wordpress/wp-content/plugins/hello.php
+
+# ignore specific themes
+wordpress/wp-content/themes/twenty*/
+
+# ignore log files and databases
+*.log
+*.sql
+*.sqlite
+
+# ignore Editor files
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
+
+# ignore compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# ignore packaged files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# -------------------------
+# BEGIN Whitelisted Files
+# -------------------------
+
+# track these files, if they exist
+!.gitignore
+!.editorconfig
+!.phpcs.xml.dist
+!README.md
+!CHANGELOG.md
+!composer.json
+
+# track favicon files, if they exist
+!android-chrome-*.png
+!apple-touch-icon*.png
+!browserconfig.xml
+!favicon*.png
+!favicon*.ico
+!manifest.json
+!mstile-*.png
+!safari-pinned-tab.svg
+!site.webmanifest
+
+# track these mu-plugins, plugins, and themes
+# add your own entries here
+# !wp-content/mu-plugins/example-mu-plugin/
+# !wp-content/plugins/example-plugin/
+# !wp-content/themes/ondes-maritimes/
+!wordpress/wp-content/plugins
+!wordpress/wp-content/mu-plugins
+/vendor/
+/wordpress_data/vendor/
+/wordpress_data/wp-config.php.bak
+
+auth.json
