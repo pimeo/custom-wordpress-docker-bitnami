@@ -12,6 +12,8 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=no
     env_file: .env
+    networks:
+      - wp_docker_clean_install_network
 
   wordpress:
     container_name: wordpress_docker_app_2
@@ -30,3 +32,9 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=no
     env_file: .env
+    networks:
+      - wp_docker_clean_install_network
+
+networks:
+  wp_docker_clean_install_network:
+    driver: bridge
