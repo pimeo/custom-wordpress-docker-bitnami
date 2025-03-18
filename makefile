@@ -57,7 +57,6 @@ generate_wordpress_vars_in_env_file: ## Generate wordpress credentials and setti
 	echo DB_NAME=$$(grep WORDPRESS_DATABASE_NAME .env | cut -d'=' -f 2-) >> wordpress_data/.env
 	echo DB_PASSWORD=$$(grep WORDPRESS_DATABASE_PASSWORD .env | cut -d'=' -f 2-) >> wordpress_data/.env
 	echo "### / WP CONFIG DATABASE CREDENTIALS" >> wordpress_data/.env
-
 	echo "\n\n ### WP CONFIG" >> wordpress_data/.env
 	echo WP_HOST_PROTOCOL=$$(grep WP_HOST_PROTOCOL .env | cut -d'=' -f 2-) >> wordpress_data/.env
 	echo WP_HOST_DOMAIN=$$(grep WORDPRESS_HOST_PROTOCOL .env | cut -d'=' -f 2-) >> wordpress_data/.env
@@ -69,8 +68,9 @@ remove_wordress_orig: ## Delete wordpress-orig directory
 
 configure_persistent_binded_volumes: # Create bitnami user to prevent from denied permissions on mounted binded volumes
 	sudo useradd -u 1001 bitnami
+	usermod -a -G bitnami $$(whoiam)
 	mkdir -p {wordpress_data,mariadb_data}
-	sudo chown -R bitnami:bitnami wordpress_data
+	sudo chown -R $$(whoiam):bitnami wordpress_data
 	sudo chown -R bitnami:bitnami mariadb_data
 
 generate_env_file: cleanup_env_file generate_wordpress_vars_in_env_file generate_wordpress_salts_in_env_file ## Shortcut command to generate a new .env file in wordpress_data directory
