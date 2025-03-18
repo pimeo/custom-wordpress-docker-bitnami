@@ -117,12 +117,7 @@ if ( defined( 'WP_CLI' ) ) {
 	$_SERVER['HTTP_HOST'] = '127.0.0.1';
 }
 
-define( 'WP_HOME', getenv('WP_HOST_PROTOCOL') ?: 'http' . '://' . $_SERVER['HTTP_HOST'] . '/' );
-define( 'WP_SITEURL', getenv('WP_HOST_PROTOCOL') ?: 'http' . '://' . $_SERVER['HTTP_HOST'] . '/' );
-define( 'WP_AUTO_UPDATE_CORE', false );
-
 /* Force HTTPs */
-
 if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
 $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
         $_SERVER['HTTPS'] = 'on';
@@ -134,6 +129,10 @@ if ( ! empty($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
 if ( ! empty( $_SERVER['HTTP_X_FORWARDED_HOST'] ) ) {
         $_SERVER['HTTP_HOST'] = $_SERVER['HTTP_X_FORWARDED_HOST'];
 }
+
+define( 'WP_HOME', getenv('WP_HOST_PROTOCOL') ?: 'http' . '://' . $_SERVER['HTTP_HOST'] . '/' );
+define( 'WP_SITEURL', getenv('WP_HOST_PROTOCOL') ?: 'http' . '://' . $_SERVER['HTTP_HOST'] . '/' );
+define( 'WP_AUTO_UPDATE_CORE', false );
 
 
 /* That's all, stop editing! Happy publishing. */
