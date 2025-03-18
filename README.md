@@ -56,3 +56,18 @@ Il est possible de modifier les configurations de php, nginx et php-fpm, situés
 ```
 make customize_wordpress
 ```
+
+## Acces
+
+```
+http://localhost/
+https://localhost/
+```
+
+## Administration
+
+```
+http://localhost/wp-admin
+user: user
+password: bitnami
+```
