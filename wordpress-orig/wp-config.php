@@ -25,7 +25,9 @@ $file = $app_env == null ? ".env" : ".env.".$app_env;
 if(true === file_exists(__DIR__.'/'.$file))
 {
     require_once(__DIR__ . '/vendor/autoload.php');
-    (Dotenv\Dotenv::createUnsafeImmutable(__DIR__,$file))->load();
+	$env = \Dotenv\Dotenv::parse(
+		file_get_contents(__DIR__.'/'.$file)
+	);  
     error_log("Environment loaded from ".$file);
 } else {
     error_log("*WARNING* environment file not found: ".$file);
@@ -33,17 +35,17 @@ if(true === file_exists(__DIR__.'/'.$file))
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', getenv('DB_NAME') );
+define( 'DB_NAME', $env['DB_NAME'] );
 
 /** Database username */
-define( 'DB_USER', getenv('DB_USER') );
+define( 'DB_USER', $env['DB_USER'] );
 
 /** Database password */
-define( 'DB_PASSWORD', getenv('DB_PASSWORD') );
+define( 'DB_PASSWORD', $env['DB_PASSWORD'] );
 
 /** Database hostname */
 // define( 'DB_HOST', 'mariadb:3306' );
-define( 'DB_HOST', getenv('DB_HOST') . ":" . getenv('DB_PORT'));
+define( 'DB_HOST', $env['DB_HOST'] . ":" . $env['DB_PORT']);
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
@@ -62,14 +64,14 @@ define( 'DB_COLLATE', '' );
  *
  * @since 2.6.0
  */
-define( 'AUTH_KEY',         getenv('AUTH_KEY'));
-define( 'SECURE_AUTH_KEY',  getenv('SECURE_AUTH_KEY'));
-define( 'LOGGED_IN_KEY',    getenv('LOGGED_IN_KEY'));
-define( 'NONCE_KEY',        getenv('NONCE_KEY'));
-define( 'AUTH_SALT',        getenv('AUTH_SALT'));
-define( 'SECURE_AUTH_SALT', getenv('SECURE_AUTH_SALT'));
-define( 'LOGGED_IN_SALT',   getenv('LOGGED_IN_SALT'));
-define( 'NONCE_SALT',       getenv('NONCE_SALT'));
+define( 'AUTH_KEY',         $env['AUTH_KEY']);
+define( 'SECURE_AUTH_KEY',  $env['SECURE_AUTH_KEY']);
+define( 'LOGGED_IN_KEY',    $env['LOGGED_IN_KEY']);
+define( 'NONCE_KEY',        $env['NONCE_KEY']);
+define( 'AUTH_SALT',        $env['AUTH_SALT']);
+define( 'SECURE_AUTH_SALT', $env['SECURE_AUTH_SALT']);
+define( 'LOGGED_IN_SALT',   $env['LOGGED_IN_SALT']);
+define( 'NONCE_SALT',       $env['NONCE_SALT']);
 
 /**#@-*/
 
@@ -99,7 +101,7 @@ $table_prefix = 'wp_';
  *
  * @link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
  */
-define( 'WP_DEBUG', getenv('WP_DEBUG') ?: false );
+define( 'WP_DEBUG', $env['WP_DEBUG'] ?? false );
 
 /* Add any custom values between this line and the "stop editing" line. */
 
@@ -117,21 +119,8 @@ if ( defined( 'WP_CLI' ) ) {
 	$_SERVER['HTTP_HOST'] = '127.0.0.1';
 }
 
-/* Force HTTPs */
-if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
-$_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
-        $_SERVER['HTTPS'] = 'on';
-        $_SERVER['REQUEST_SCHEME'] = 'https';
-}
-if ( ! empty($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
-        $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
-}
-if ( ! empty( $_SERVER['HTTP_X_FORWARDED_HOST'] ) ) {
-        $_SERVER['HTTP_HOST'] = $_SERVER['HTTP_X_FORWARDED_HOST'];
-}
-
-define( 'WP_HOME', getenv('WP_HOST_PROTOCOL') ?: 'http' . '://' . $_SERVER['HTTP_HOST'] . '/' );
-define( 'WP_SITEURL', getenv('WP_HOST_PROTOCOL') ?: 'http' . '://' . $_SERVER['HTTP_HOST'] . '/' );
+define( 'WP_HOME', ($env['WP_HOST_PROTOCOL'] ?? 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? $_SERVER['HTTP_HOST']) . '/' );
+define( 'WP_SITEURL', ($env['WP_HOST_PROTOCOL'] ?? 'http') . '://' . ( $env['WP_HOST_PROTOCOL'] ?? $_SERVER['HTTP_HOST']) . '/' );
 define( 'WP_AUTO_UPDATE_CORE', false );
 
 
