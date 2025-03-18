@@ -138,4 +138,4 @@ exit
 
 ### Problème de permissions sur les répertoires wordpress_data et/ mariadb_data
 
-Lancer la commande `make configure_persistent_binded_volumes` 
+Lancer la commande `make configure_persistent_binded_volumes` pour créer un utilisateur bitnami ayant la capacité de pouvoir écrire dans le répertoire. Il est recommandé d'ajouter l'utilisateur actif de la session dans le groupe bitnami pour pouvoir modifier des fichiers.
