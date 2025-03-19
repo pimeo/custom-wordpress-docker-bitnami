@@ -75,8 +75,8 @@ configure_persistent_binded_volumes: # Create bitnami user to prevent from denie
 	sudo useradd -u 1001 bitnami || echo "User already exists."
 	sudo usermod -a -G bitnami $(ACTIVE_USER)
 	mkdir -p $(WORDPRESS_VOLUME_DIR) 
-	sudo chown -R bitnami:$(ACTIVE_USER) $(WORDPRESS_VOLUME_DIR)
-	if [ -d $(MARIADB_VOLUME_DIR) ]; then sudo chown -R bitnami:$(ACTIVE_USER) $(MARIADB_VOLUME_DIR); fi
+	sudo chown -R bitnami:bitnami $(WORDPRESS_VOLUME_DIR)
+	if [ -d $(MARIADB_VOLUME_DIR) ]; then sudo chown -R bitnami:bitnami $(MARIADB_VOLUME_DIR); fi
 
 generate_env_file: cleanup_env_file generate_wordpress_vars_in_env_file generate_wordpress_salts_in_env_file ## Shortcut command to generate a new .env file in wordpress volume directory
 customize_wordpress: configure_persistent_binded_volumes composer_install update_wp_config generate_env_file ## Push custom settings to rule Wordpress via an env-based wp-config file
