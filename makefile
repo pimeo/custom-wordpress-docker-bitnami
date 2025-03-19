@@ -73,7 +73,7 @@ remove_wordress_orig: ## Delete wordpress origin directory
 
 configure_persistent_binded_volumes: # Create bitnami user to prevent from denied permissions on mounted binded volumes
 	sudo useradd -u 1001 bitnami || echo "User already exists."
-	sudo usermod -a -G bitnami $(ACTIVE_USER)
+	sudo usermod -G bitnami -a $(ACTIVE_USER)
 	mkdir -p $(WORDPRESS_VOLUME_DIR) 
 	sudo chown -R bitnami:bitnami $(WORDPRESS_VOLUME_DIR)
 	if [ -d $(MARIADB_VOLUME_DIR) ]; then sudo chown -R bitnami:bitnami $(MARIADB_VOLUME_DIR); fi
