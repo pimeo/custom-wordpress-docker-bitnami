@@ -14,6 +14,8 @@ Note: This project is for use with docker-compose.
 - [Table of contents](#table-of-contents)
 - [Arborescence originale](#arborescence-originale)
 - [Requirements](#requirements)
+  - [Supported OS](#supported-os)
+  - [Software](#software)
   - [Debian distribution](#debian-distribution)
   - [Macos](#macos)
 - [Project installation](#project-installation)
@@ -70,6 +72,13 @@ tree -L 3
 
 ## Requirements
 
+### Supported OS
+- MacOS
+- Linux Debian
+
+### Software
+- Docker with docker compose
+- PHP with Composer
 
 ### Debian distribution
 
@@ -77,6 +86,8 @@ tree -L 3
 apt update
 apt install build-essential
 ```
+
+You can run the command: `make php_debian_install` to install the required tools to your machine.
 
 ### Macos
 
@@ -98,11 +109,11 @@ docker compose up --wait --force-recreate --remove-orphans -d
 
 #### Environment variables
 
-| Variables    | Default | Accepted values |
-| -------- | ------- | ------- |
-| WORDPRESS_HOST_PROTOCOL | http | http, https |
-| WORDPRESS_HOST_DOMAIN | (empty) | Ip or domain or subdomain. It serves $_SERVER['HTTP_HOST'] if empty. |
-| WORDPRESS_DEBUG | false | true, false |
+| Variables               | Default | Accepted values                                                      |
+| ----------------------- | ------- | -------------------------------------------------------------------- |
+| WORDPRESS_HOST_PROTOCOL | http    | http, https                                                          |
+| WORDPRESS_HOST_DOMAIN   | (empty) | Ip or domain or subdomain. It serves $_SERVER['HTTP_HOST'] if empty. |
+| WORDPRESS_DEBUG         | false   | true, false                                                          |
 
 
 #### Fichiers de configuration bitnami
