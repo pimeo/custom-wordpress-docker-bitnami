@@ -1,3 +1,16 @@
+## Objectifs du projet
+
+- Ce dépôt reprend le super travail de Bitnami sur Wordpress/Nginx, en y ajoutant la possibilité de modifier dynamiquement certaines variables du fichier `wp-config.php` à partir d'un fichier `.env` auto-généré pour le projet.
+- Il permet de supporter le https dans une configuration de reverse proxy.
+- Il permet de modifier les configurations nginx, php-fpm et php. 
+- Un ensemble de commandes makefile permettent de simplifier certaines actions d'installation et de configuration du projet.
+
+Ce projet est à utiliser avec docker-compose.
+
+## Table of contents
+
+- [Objectifs du projet](#objectifs-du-projet)
+- [Table of contents](#table-of-contents)
 - [Arborescence originale](#arborescence-originale)
 - [Requirements](#requirements)
   - [Debian distribution](#debian-distribution)
@@ -11,8 +24,9 @@
 - [Acces](#acces)
 - [Administration](#administration)
 - [Update protocol and host in mariadb database](#update-protocol-and-host-in-mariadb-database)
-- [Troubleshootings](#troubleshootings)
+- [Troubleshooting](#troubleshooting)
   - [Problème de permissions sur les répertoires wordpress\_data et/ mariadb\_data](#problème-de-permissions-sur-les-répertoires-wordpress_data-et-mariadb_data)
+- [Todolist](#todolist)
 
 
 ## Arborescence originale
@@ -134,8 +148,11 @@ UPDATE wp_postmeta SET meta_value = replace(meta_value,'http://oldurl.com','http
 exit
 ```
 
-## Troubleshootings
+## Troubleshooting
 
 ### Problème de permissions sur les répertoires wordpress_data et/ mariadb_data
 
 Lancer la commande `make configure_persistent_binded_volumes` pour créer un utilisateur bitnami ayant la capacité de pouvoir écrire dans le répertoire. Il est recommandé d'ajouter l'utilisateur actif de la session dans le groupe bitnami pour pouvoir modifier des fichiers.
+
+## Todolist
+- [ ] Improve README documentation.
