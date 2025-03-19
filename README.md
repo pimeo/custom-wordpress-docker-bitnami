@@ -25,7 +25,7 @@ Ce projet est à utiliser avec docker-compose.
 - [Administration](#administration)
 - [Update protocol and host in mariadb database](#update-protocol-and-host-in-mariadb-database)
 - [Troubleshooting](#troubleshooting)
-  - [Problème de permissions sur les répertoires wordpress\_data et/ mariadb\_data](#problème-de-permissions-sur-les-répertoires-wordpress_data-et-mariadb_data)
+  - [Problème de permissions sur les répertoires wordpress et mariadb](#problème-de-permissions-sur-les-répertoires-wordpress-et-mariadb)
 - [Todolist](#todolist)
 
 
@@ -48,7 +48,7 @@ tree -L 3
 │   ├── composer.json
 │   ├── composer.lock
 │   └── wp-config.php
-└── wordpress_data
+└── wordpress
     ├── vendor
     │   ├── autoload.php
     │   ├── composer
@@ -150,7 +150,7 @@ exit
 
 ## Troubleshooting
 
-### Problème de permissions sur les répertoires wordpress_data et/ mariadb_data
+### Problème de permissions sur les répertoires wordpress et mariadb
 
 Lancer la commande `make configure_persistent_binded_volumes` pour créer un utilisateur bitnami ayant la capacité de pouvoir écrire dans le répertoire. Il est recommandé d'ajouter l'utilisateur actif de la session dans le groupe bitnami pour pouvoir modifier des fichiers.
 
