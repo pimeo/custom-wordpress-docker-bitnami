@@ -71,15 +71,17 @@ generate_wordpress_vars_in_env_file: ## Generate wordpress credentials and setti
 remove_wordress_orig: ## Delete wordpress origin directory
 	rm -frv $(WORDPRESS_ORIG_DIR)
 
-configure_persistent_binded_volumes: # Create bitnami user to prevent from denied permissions on mounted binded volumes
+create_bitnami_user:
 	sudo useradd -u 1001 bitnami || echo "User already exists."
 	sudo usermod -G bitnami -a $(ACTIVE_USER)
+
+configure_persistent_binded_volumes: # Create bitnami user to prevent from denied permissions on mounted binded volumes	
 	mkdir -p $(WORDPRESS_VOLUME_DIR) 
 	sudo chown -R bitnami:bitnami $(WORDPRESS_VOLUME_DIR)
 	sudo chmod -R 775 $(WORDPRESS_VOLUME_DIR)
 	if [ -d $(MARIADB_VOLUME_DIR) ]; then sudo chown -R bitnami:bitnami $(MARIADB_VOLUME_DIR); fi
 
 generate_env_file: cleanup_env_file generate_wordpress_vars_in_env_file generate_wordpress_salts_in_env_file ## Shortcut command to generate a new .env file in wordpress volume directory
-customize_wordpress: configure_persistent_binded_volumes composer_install update_wp_config generate_env_file ## Push custom settings to rule Wordpress via an env-based wp-config file
+customize_wordpress: create_bitnami_user configure_persistent_binded_volumes composer_install update_wp_config generate_env_file configure_persistent_binded_volumes ## Push custom settings to rule Wordpress via an env-based wp-config file
 
 install: launch_wordpress_docker_compose customize_wordpress
