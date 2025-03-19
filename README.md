@@ -152,7 +152,10 @@ exit
 
 ### Problème de permissions sur les répertoires wordpress et mariadb
 
+Error: `cp: cannot create regular file '/bitnami/wordpress/wp-config.php': Permission denied`
+
 Lancer la commande `make configure_persistent_binded_volumes` pour créer un utilisateur bitnami ayant la capacité de pouvoir écrire dans le répertoire. Il est recommandé d'ajouter l'utilisateur actif de la session dans le groupe bitnami pour pouvoir modifier des fichiers.
+
 
 ## Todolist
 - [ ] Improve README documentation.

@@ -2,6 +2,7 @@ WORDPRESS_SALT_URL=https://api.wordpress.org/secret-key/1.1/salt/
 WORDPRESS_VOLUME_DIR=wordpress
 WORDPRESS_ORIG_DIR=wordpress-orig
 MARIADB_VOLUME_DIR=mariadb-data
+ACTIVE_USER=$$(whoami)
 
 .PHONY: composer_install update_wp_config launch_wordpress_docker_compose cleanup_env_file generate_wordpress_salts_in_env_file generate_wordpress_vars_in_env_file remove_wordress_orig configure_persistent_binded_volumes generate_env_file customize_wordpress install
 
@@ -71,11 +72,10 @@ remove_wordress_orig: ## Delete wordpress origin directory
 	rm -frv $(WORDPRESS_ORIG_DIR)
 
 configure_persistent_binded_volumes: # Create bitnami user to prevent from denied permissions on mounted binded volumes
-	sudo useradd -u 1001 bitnami
-	sudo usermod -a -G bitnami $$(whoiam)
-	mkdir -p {$(WORDPRESS_VOLUME_DIR),$(MARIADB_VOLUME_DIR)}
-	sudo chown -R $$(whoiam):bitnami $(WORDPRESS_VOLUME_DIR)
-	sudo chown -R bitnami:bitnami $(MARIADB_VOLUME_DIR)
+	sudo useradd -u 1001 bitnami || echo "User already exists."
+	sudo usermod -a -G bitnami $(ACTIVE_USER) || echo "Current user already in group bitnami."
+	if [[ -d $(WORDPRESS_VOLUME_DIR) ]]; then sudo chown -R $(ACTIVE_USER):bitnami $(WORDPRESS_VOLUME_DIR); fi
+	if [[ -d $(MARIADB_VOLUME_DIR) ]]; then sudo chown -R $(ACTIVE_USER):bitnami $(MARIADB_VOLUME_DIR); fi
 
 generate_env_file: cleanup_env_file generate_wordpress_vars_in_env_file generate_wordpress_salts_in_env_file ## Shortcut command to generate a new .env file in wordpress volume directory
 customize_wordpress: composer_install update_wp_config generate_env_file ## Push custom settings to rule Wordpress via an env-based wp-config file
