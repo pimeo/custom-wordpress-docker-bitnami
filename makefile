@@ -20,14 +20,14 @@ composer_install: $(WORDPRESS_ORIG_DIR)/composer.json  ## Install composer vendo
 	composer install --working-dir=$(WORDPRESS_ORIG_DIR)
 	mkdir -p $(WORDPRESS_VOLUME_DIR)
 	sudo rm -fr $(WORDPRESS_VOLUME_DIR)/vendor
-	mv $(WORDPRESS_ORIG_DIR)/vendor $(WORDPRESS_VOLUME_DIR)
+	sudo mv $(WORDPRESS_ORIG_DIR)/vendor $(WORDPRESS_VOLUME_DIR)
 	sudo chown -R bitnami:$(ACTIVE_USER) $(WORDPRESS_VOLUME_DIR)/vendor
 
 update_wp_config: $(WORDPRESS_ORIG_DIR)/wp-config.php ## Push wp-config php file into wordress volume directory
 	mkdir -p $(WORDPRESS_VOLUME_DIR)
 	if [[ -e $(WORDPRESS_VOLUME_DIR)/wp-config.php.bak ]]; then echo "Backup already exists for wp-config.php file"; else cp $(WORDPRESS_VOLUME_DIR)/wp-config.php $(WORDPRESS_VOLUME_DIR)/wp-config.php.bak; fi
 	rm -fv $(WORDPRESS_VOLUME_DIR)/wp-config.php
-	cp $(WORDPRESS_ORIG_DIR)/wp-config.php $(WORDPRESS_VOLUME_DIR)
+	sudo cp $(WORDPRESS_ORIG_DIR)/wp-config.php $(WORDPRESS_VOLUME_DIR)
 	sudo chown -R bitnami:$(ACTIVE_USER) $(WORDPRESS_VOLUME_DIR)/wp-config.php
 
 launch_wordpress_docker_compose: ## Install wordpress with docker compose then stop docker compose after a delay of 60 seconds
