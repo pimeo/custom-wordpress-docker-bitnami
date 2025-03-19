@@ -24,7 +24,7 @@ Note: This project is for use with docker-compose.
     - [Environment variables](#environment-variables)
     - [Fichiers de configuration bitnami](#fichiers-de-configuration-bitnami)
     - [Utiliser son propre fichier wp-config.php](#utiliser-son-propre-fichier-wp-configphp)
-- [Acces](#acces)
+- [Access](#access)
 - [Administration](#administration)
 - [Update protocol and host in mariadb database](#update-protocol-and-host-in-mariadb-database)
 - [Troubleshooting](#troubleshooting)
@@ -131,7 +131,9 @@ make customize_wordpress
 
 Warning: the `.env` file is auto-generated and will overwrite the values in the previous file. Remember to make a backup before running the command.
 
-## Acces
+Once the configuration of the domain is ok, you can delete the `wordpress-orig` directory or use the command `make remove_wordress_orig`.
+
+## Access
 
 ```
 http://localhost/
