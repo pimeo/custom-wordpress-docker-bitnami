@@ -29,7 +29,6 @@ Note: This project is for use with docker-compose.
 - [Update protocol and host in mariadb database](#update-protocol-and-host-in-mariadb-database)
 - [Troubleshooting](#troubleshooting)
   - [Permissions problem on wordpress and mariadb directories](#permissions-problem-on-wordpress-and-mariadb-directories)
-- [Todolist](#todolist)
 
 
 ## Arborescence originale
@@ -93,6 +92,7 @@ You can run the command: `make php_debian_install` to install the required tools
 
 ```
 xcode-select --install
+brew install --cask docker
 ```
 
 ## Project installation
@@ -104,6 +104,8 @@ cp .env.example .env # Complete variables with credentials
 make create_bitnami_user configure_persistent_binded_volumes
 docker compose up --wait --force-recreate --remove-orphans -d
 ```
+
+Theses commands are applied in case where Wordpress container service volume is binded to a directory.
 
 ### Customize Wordpress configurations
 
@@ -153,8 +155,8 @@ If you wish to set a different domain name for your Wordpress instance, you need
 
 
 ```sh
-docker exec -it wordpress_docker_db_2 mariadb -u user -p  # password set in .env file
-use wordpress_database;
+docker exec -it wordpress_docker_db_2 -u user -p  # password set in .env file
+use wordpress_database; # database name set in .env file
 
 # Ensure url need to be changed
 SELECT option_name, option_value FROM wp_options WHERE option_name in ('home', 'siteurl');
@@ -181,7 +183,3 @@ Run the following commands to create a bitnami user with the ability to write to
 make create_bitnami_user
 make configure_persistent_binded_volumes
 ```
-
-
-## Todolist
-- [ ] Improve README documentation.
