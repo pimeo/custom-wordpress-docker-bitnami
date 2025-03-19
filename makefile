@@ -19,14 +19,16 @@ composer_install: $(WORDPRESS_ORIG_DIR)/composer.json  ## Install composer vendo
 	mkdir -p $(WORDPRESS_VOLUME_DIR)
 	composer install --working-dir=$(WORDPRESS_ORIG_DIR)
 	mkdir -p $(WORDPRESS_VOLUME_DIR)
-	rm -fr $(WORDPRESS_VOLUME_DIR)/vendor
+	sudo rm -fr $(WORDPRESS_VOLUME_DIR)/vendor
 	mv $(WORDPRESS_ORIG_DIR)/vendor $(WORDPRESS_VOLUME_DIR)
+	sudo chown -R bitnami:$(ACTIVE_USER) $(WORDPRESS_VOLUME_DIR)/vendor
 
 update_wp_config: $(WORDPRESS_ORIG_DIR)/wp-config.php ## Push wp-config php file into wordress volume directory
 	mkdir -p $(WORDPRESS_VOLUME_DIR)
 	if [[ -e $(WORDPRESS_VOLUME_DIR)/wp-config.php.bak ]]; then echo "Backup already exists for wp-config.php file"; else cp $(WORDPRESS_VOLUME_DIR)/wp-config.php $(WORDPRESS_VOLUME_DIR)/wp-config.php.bak; fi
 	rm -fv $(WORDPRESS_VOLUME_DIR)/wp-config.php
 	cp $(WORDPRESS_ORIG_DIR)/wp-config.php $(WORDPRESS_VOLUME_DIR)
+	sudo chown -R bitnami:$(ACTIVE_USER) $(WORDPRESS_VOLUME_DIR)/wp-config.php
 
 launch_wordpress_docker_compose: ## Install wordpress with docker compose then stop docker compose after a delay of 60 seconds
 	docker compose up --wait --force-recreate --remove-orphans -d
@@ -79,6 +81,8 @@ configure_persistent_binded_volumes: # Create bitnami user to prevent from denie
 	if [ -d $(MARIADB_VOLUME_DIR) ]; then sudo chown -R bitnami:$(ACTIVE_USER) $(MARIADB_VOLUME_DIR); fi
 
 generate_env_file: cleanup_env_file generate_wordpress_vars_in_env_file generate_wordpress_salts_in_env_file ## Shortcut command to generate a new .env file in wordpress volume directory
+	sudo chown -R bitnami:$(ACTIVE_USER) $(WORDPRESS_VOLUME_DIR)/.env
+
 customize_wordpress: configure_persistent_binded_volumes composer_install update_wp_config generate_env_file ## Push custom settings to rule Wordpress via an env-based wp-config file
 
 install: launch_wordpress_docker_compose customize_wordpress
