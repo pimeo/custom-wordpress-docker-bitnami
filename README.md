@@ -90,6 +90,7 @@ xcode-select --install
 
 ```sh
 cp .env.example .env # Complete variables with credentials
+make create_bitnami_user configure_persistent_binded_volumes
 docker compose up --wait --force-recreate --remove-orphans -d
 ```
 

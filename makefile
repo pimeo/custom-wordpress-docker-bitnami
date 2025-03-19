@@ -4,7 +4,7 @@ WORDPRESS_ORIG_DIR=wordpress-orig
 MARIADB_VOLUME_DIR=mariadb-data
 ACTIVE_USER=$$(whoami)
 
-.PHONY: composer_install update_wp_config install_wordpress_docker_compose start_wordpress_docker_compose cleanup_env_file generate_wordpress_salts_in_env_file generate_wordpress_vars_in_env_file remove_wordress_orig configure_persistent_binded_volumes generate_env_file customize_wordpress install
+.PHONY: composer_install update_wp_config install_wordpress_docker_compose start_wordpress_docker_compose cleanup_env_file generate_wordpress_salts_in_env_file generate_wordpress_vars_in_env_file remove_wordress_orig configure_persistent_binded_volumes generate_env_file customize_wordpress
 
 php_debian_install:
 	apt install php-common php-cli
@@ -86,12 +86,10 @@ create_bitnami_user:
 configure_persistent_binded_volumes: # Create bitnami user to prevent from denied permissions on mounted binded volumes	
 	mkdir -p $(WORDPRESS_VOLUME_DIR) 
 	sudo chown -R bitnami:bitnami $(WORDPRESS_VOLUME_DIR)
-	sudo chmod -R 775 $(WORDPRESS_VOLUME_DIR)
+	sudo chmod -R 774 $(WORDPRESS_VOLUME_DIR)
 	if [ -d $(MARIADB_VOLUME_DIR) ]; then sudo chown -R bitnami:bitnami $(MARIADB_VOLUME_DIR); fi
 
 generate_env_file: cleanup_env_file generate_wordpress_vars_in_env_file generate_wordpress_salts_in_env_file ## Shortcut command to generate a new .env file in wordpress volume directory
 	sudo chmod -R 644 $(WORDPRESS_VOLUME_DIR)/.env
 
 customize_wordpress: configure_persistent_binded_volumes composer_install update_wp_config generate_env_file ## Push custom settings to rule Wordpress via an env-based wp-config file
-
-install: create_bitnami_user configure_persistent_binded_volumes install_wordpress_docker_compose customize_wordpress start_wordpress_docker_compose
