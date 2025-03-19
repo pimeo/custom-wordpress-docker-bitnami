@@ -22,7 +22,7 @@ Note: This project is for use with docker-compose.
   - [Standard installation](#standard-installation)
   - [Customize Wordpress configurations](#customize-wordpress-configurations)
     - [Environment variables](#environment-variables)
-    - [Fichiers de configuration bitnami](#fichiers-de-configuration-bitnami)
+    - [Bitnami server files configurations](#bitnami-server-files-configurations)
     - [Utiliser son propre fichier wp-config.php](#utiliser-son-propre-fichier-wp-configphp)
 - [Access](#access)
 - [Administration](#administration)
@@ -119,7 +119,7 @@ Theses commands are applied in case where Wordpress container service volume is 
 | WORDPRESS_DEBUG         | false   | true, false                                                          |
 
 
-#### Fichiers de configuration bitnami
+#### Bitnami server files configurations
 
 It is possible to modify the configurations of php, nginx and php-fpm, located in the `bitnami` directory. The containers must be stopped and restarted to take the changes into account.
 
