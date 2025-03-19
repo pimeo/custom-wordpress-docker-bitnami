@@ -29,6 +29,7 @@ Note: This project is for use with docker-compose.
 - [Update protocol and host in mariadb database](#update-protocol-and-host-in-mariadb-database)
 - [Troubleshooting](#troubleshooting)
   - [Permissions problem on wordpress and mariadb directories](#permissions-problem-on-wordpress-and-mariadb-directories)
+- [Original Bitnami Wordpress Nginx docker compose contents](#original-bitnami-wordpress-nginx-docker-compose-contents)
 
 
 ## Arborescence originale
@@ -182,4 +183,41 @@ Run the following commands to create a bitnami user with the ability to write to
 ```sh
 make create_bitnami_user
 make configure_persistent_binded_volumes
+```
+
+
+## Original Bitnami Wordpress Nginx docker compose contents
+
+```yml
+services:
+  mariadb:
+    image: docker.io/bitnami/mariadb:latest
+    volumes:
+      - 'mariadb_data:/bitnami/mariadb'
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=bn_wordpress
+      - MARIADB_DATABASE=bitnami_wordpress
+  wordpress:
+    image: docker.io/bitnami/wordpress-nginx:6
+    ports:
+      - '80:8080'
+      - '443:8443'
+    volumes:
+      - 'wordpress_data:/bitnami/wordpress'
+    depends_on:
+      - mariadb
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - WORDPRESS_DATABASE_HOST=mariadb
+      - WORDPRESS_DATABASE_PORT_NUMBER=3306
+      - WORDPRESS_DATABASE_USER=bn_wordpress
+      - WORDPRESS_DATABASE_NAME=bitnami_wordpress
+volumes:
+  mariadb_data:
+    driver: local
+  wordpress_data:
+    driver: local
 ```
