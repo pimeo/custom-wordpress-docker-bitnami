@@ -4,7 +4,7 @@ WORDPRESS_ORIG_DIR=wordpress-orig
 MARIADB_VOLUME_DIR=mariadb-data
 ACTIVE_USER=$$(whoami)
 
-.PHONY: composer_install update_wp_config launch_wordpress_docker_compose cleanup_env_file generate_wordpress_salts_in_env_file generate_wordpress_vars_in_env_file remove_wordress_orig configure_persistent_binded_volumes generate_env_file customize_wordpress install
+.PHONY: composer_install update_wp_config install_wordpress_docker_compose start_wordpress_docker_compose cleanup_env_file generate_wordpress_salts_in_env_file generate_wordpress_vars_in_env_file remove_wordress_orig configure_persistent_binded_volumes generate_env_file customize_wordpress install
 
 php_debian_install:
 	apt install php-common php-cli
@@ -35,10 +35,11 @@ update_wp_config: $(WORDPRESS_ORIG_DIR)/wp-config.php ## Push wp-config php file
 	sudo chmod -R 644 $(WORDPRESS_VOLUME_DIR)/wp-config.php
 	sudo chown bitnami:bitnami $(WORDPRESS_VOLUME_DIR)/wp-config.php
 
-launch_wordpress_docker_compose: ## Install wordpress with docker compose then stop docker compose after a delay of 60 seconds
-	docker compose up --wait --force-recreate --remove-orphans -d
-	sleep 300
-	docker compose stop
+install_wordpress_docker_compose: ## Install wordpress with docker compose.
+	docker compose up --force-recreate --remove-orphans
+
+start_wordpress_docker_compose: ## Start wordpress with docker compose
+	docker compose up --force-recreate --remove-orphans --wait -d
 
 cleanup_env_file: ## Delete .env file in wordpress volume directory
 	mkdir -p $(WORDPRESS_VOLUME_DIR)
@@ -91,6 +92,6 @@ configure_persistent_binded_volumes: # Create bitnami user to prevent from denie
 generate_env_file: cleanup_env_file generate_wordpress_vars_in_env_file generate_wordpress_salts_in_env_file ## Shortcut command to generate a new .env file in wordpress volume directory
 	sudo chmod -R 644 $(WORDPRESS_VOLUME_DIR)/.env
 
-customize_wordpress: create_bitnami_user configure_persistent_binded_volumes composer_install update_wp_config generate_env_file ## Push custom settings to rule Wordpress via an env-based wp-config file
+customize_wordpress: configure_persistent_binded_volumes composer_install update_wp_config generate_env_file ## Push custom settings to rule Wordpress via an env-based wp-config file
 
-install: launch_wordpress_docker_compose customize_wordpress
+install: create_bitnami_user configure_persistent_binded_volumes install_wordpress_docker_compose customize_wordpress start_wordpress_docker_compose
