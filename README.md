@@ -1,15 +1,16 @@
-## Objectifs du projet
+## Project goals
 
-- Ce dépôt reprend le super travail de Bitnami sur Wordpress/Nginx, en y ajoutant la possibilité de modifier dynamiquement certaines variables du fichier `wp-config.php` à partir d'un fichier `.env` auto-généré pour le projet.
-- Il permet de supporter le https dans une configuration de reverse proxy.
-- Il permet de modifier les configurations nginx, php-fpm et php. 
-- Un ensemble de commandes makefile permettent de simplifier certaines actions d'installation et de configuration du projet.
+- This repository builds on Bitnami's great work on Wordpress/Nginx, adding the ability to dynamically modify certain variables in the `wp-config.php` file from an auto-generated `.env` file for the project.
+- Supports https with reverse proxy configurations.
+- It can be used to modify nginx, php-fpm and php configurations. 
+- A set of makefile commands simplify installation and configuration of the project.
 
-Ce projet est à utiliser avec docker-compose.
+
+Note: This project is for use with docker-compose.
 
 ## Table of contents
 
-- [Objectifs du projet](#objectifs-du-projet)
+- [Project goals](#project-goals)
 - [Table of contents](#table-of-contents)
 - [Arborescence originale](#arborescence-originale)
 - [Requirements](#requirements)
@@ -18,14 +19,14 @@ Ce projet est à utiliser avec docker-compose.
 - [Project installation](#project-installation)
   - [Standard installation](#standard-installation)
   - [Customize Wordpress configurations](#customize-wordpress-configurations)
-    - [Variables d'environnements](#variables-denvironnements)
+    - [Environment variables](#environment-variables)
     - [Fichiers de configuration bitnami](#fichiers-de-configuration-bitnami)
     - [Utiliser son propre fichier wp-config.php](#utiliser-son-propre-fichier-wp-configphp)
 - [Acces](#acces)
 - [Administration](#administration)
 - [Update protocol and host in mariadb database](#update-protocol-and-host-in-mariadb-database)
 - [Troubleshooting](#troubleshooting)
-  - [Problème de permissions sur les répertoires wordpress et mariadb](#problème-de-permissions-sur-les-répertoires-wordpress-et-mariadb)
+  - [Permissions problem on wordpress and mariadb directories](#permissions-problem-on-wordpress-and-mariadb-directories)
 - [Todolist](#todolist)
 
 
@@ -94,7 +95,7 @@ docker compose up --wait --force-recreate --remove-orphans -d
 
 ### Customize Wordpress configurations
 
-#### Variables d'environnements
+#### Environment variables
 
 | Variables    | Default | Accepted values |
 | -------- | ------- | ------- |
@@ -105,7 +106,7 @@ docker compose up --wait --force-recreate --remove-orphans -d
 
 #### Fichiers de configuration bitnami
 
-Il est possible de modifier les configurations de php, nginx et php-fpm, situés dans le répertoire `bitnami`. Il faut stopper et redémarrer les containers pour prendre en compte les changements.
+It is possible to modify the configurations of php, nginx and php-fpm, located in the `bitnami` directory. The containers must be stopped and restarted to take the changes into account.
 
 #### Utiliser son propre fichier wp-config.php
 
@@ -113,7 +114,7 @@ Il est possible de modifier les configurations de php, nginx et php-fpm, situés
 make customize_wordpress
 ```
 
-Attention, le fichier `.env` est auto-généré et écrasera les valeurs du précédent fichier. Pensez à faire une sauvegarde avant de lancer la commande.
+Warning: the `.env` file is auto-generated and will overwrite the values in the previous file. Remember to make a backup before running the command.
 
 ## Acces
 
@@ -131,6 +132,13 @@ password: bitnami
 ```
 
 ## Update protocol and host in mariadb database
+
+If you wish to set a different domain name for your Wordpress instance, you need to follow the commands: 
+
+1. Set to the `.env` file the setting `WORDPRESS_HOST_DOMAIN`
+2. Run command `make customize_wordpress`
+3. Connect to mariadb service container instance to change in database the URL to replace with your new domain. Theses commands are available below.
+
 
 ```sh
 docker exec -it wordpress_docker_db_2 mariadb -u user -p  # password set in .env file
@@ -150,11 +158,11 @@ exit
 
 ## Troubleshooting
 
-### Problème de permissions sur les répertoires wordpress et mariadb
+### Permissions problem on wordpress and mariadb directories
 
 Error: `cp: cannot create regular file '/bitnami/wordpress/wp-config.php': Permission denied`
 
-Lancer les commandes suivantes pour créer un utilisateur bitnami ayant la capacité de pouvoir écrire dans le répertoire. Il est recommandé d'ajouter l'utilisateur actif de la session dans le groupe bitnami pour pouvoir modifier des fichiers.
+Run the following commands to create a bitnami user with the ability to write to the directory. It is recommended to add the session's active user to the bitnami group in order to be able to modify files.
 
 
 ```sh
