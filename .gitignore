@@ -131,11 +131,8 @@ wordpress_data/wp-admin/*
 !wordpress_data/wp-content/plugins/
 !wordpress_data/wp-content/themes/
 wordpress_data/vendor/
-wordpress_data/wp-config.php.bak
 
-!wordpress/wp-content/mu-plugins
-wordpress_data/wp-content/plugins
-!wordpress_data/wp-content/plugins/index.php
+wordpress_data/wp-config.php.bak
 
 # Ignore mysql docker volume
 dbdata
