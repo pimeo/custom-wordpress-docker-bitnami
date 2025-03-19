@@ -24,12 +24,7 @@ composer_install: $(WORDPRESS_ORIG_DIR)/composer.json  ## Install composer vendo
 
 update_wp_config: $(WORDPRESS_ORIG_DIR)/wp-config.php ## Push wp-config php file into wordress volume directory
 	mkdir -p $(WORDPRESS_VOLUME_DIR)
-	if [[ -e $(WORDPRESS_VOLUME_DIR)/wp-config.php.bak ]]; then\
-		echo "Backup already exists for wp-config.php file";\
-		sudo chmod -R 644 $(WORDPRESS_VOLUME_DIR)/wp-config.php.bak;\
-		sudo chown bitnami:bitnami $(WORDPRESS_VOLUME_DIR)/wp-config.php.bak;\
-	else cp $(WORDPRESS_VOLUME_DIR)/wp-config.php $(WORDPRESS_VOLUME_DIR)/wp-config.php.bak;\
-	fi
+	if [[ -e $(WORDPRESS_VOLUME_DIR)/wp-config.php.bak ]]; then echo "Backup already exists for wp-config.php file"; sudo chmod -R 644 $(WORDPRESS_VOLUME_DIR)/wp-config.php.bak; sudo chown bitnami:bitnami $(WORDPRESS_VOLUME_DIR)/wp-config.php.bak; else cp $(WORDPRESS_VOLUME_DIR)/wp-config.php $(WORDPRESS_VOLUME_DIR)/wp-config.php.bak; fi
 	rm -fv $(WORDPRESS_VOLUME_DIR)/wp-config.php
 	cp $(WORDPRESS_ORIG_DIR)/wp-config.php $(WORDPRESS_VOLUME_DIR)
 	sudo chmod -R 644 $(WORDPRESS_VOLUME_DIR)/wp-config.php
