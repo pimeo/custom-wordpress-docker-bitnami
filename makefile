@@ -7,7 +7,8 @@ ACTIVE_USER=$$(whoami)
 .PHONY: composer_install update_wp_config install_wordpress_docker_compose start_wordpress_docker_compose cleanup_env_file generate_wordpress_salts_in_env_file generate_wordpress_vars_in_env_file remove_wordress_orig configure_persistent_binded_volumes generate_env_file customize_wordpress
 
 php_debian_install:
-	apt install php-common php-cli
+	sudo apt update
+	sudo apt install build-essential php-common php-cli
 	php --version
 	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 	php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'.PHP_EOL; } else { echo 'Installer corrupt'.PHP_EOL; unlink('composer-setup.php'); exit(1); }"
