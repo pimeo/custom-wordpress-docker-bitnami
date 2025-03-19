@@ -1,6 +1,5 @@
-# Copyright Broadcom, Inc. All Rights Reserved.
 # SPDX-License-Identifier: APACHE-2.0
-# https://github.com/bitnami/containers/tree/main/bitnami/wordpress-nginx
+# Reference: https://github.com/bitnami/containers/tree/main/bitnami/wordpress-nginx
 
 services:
   mariadb:
